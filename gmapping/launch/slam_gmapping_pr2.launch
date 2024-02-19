@@ -1,6 +1,8 @@
 <launch>
+    <arg name="output_location" default="screen"/>
+
     <param name="use_sim_time" value="false"/>
-    <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+    <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="$(arg output_location)">
       <param name="localization_only" value="false"/>
       <param name="base_frame" value="base_footprint"/>
       <param name="odom_frame" value="odom"/>
