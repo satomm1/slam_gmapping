@@ -183,6 +183,9 @@ void SlamGMapping::init()
   got_map_ = false;
   
 
+  // Parameter added by Matt for implementing localization only
+  if(!private_nh_.getParam("localization_only", localizationonly_))
+    localizationonly_ = 0;
   
   // Parameters used by our GMapping wrapper
   if(!private_nh_.getParam("throttle_scans", throttle_scans_))
@@ -643,9 +646,12 @@ SlamGMapping::laserCallback(const sensor_msgs::LaserScan::ConstPtr& scan)
 
     if(!got_map_ || (scan->header.stamp - last_map_update) > map_update_interval_)
     {
-      updateMap(*scan);
-      last_map_update = scan->header.stamp;
-      ROS_DEBUG("Updated the map");
+      private_nh_.getParam("localization_only", localizationonly_);
+      if (!localizationonly_) {
+        updateMap(*scan);
+        last_map_update = scan->header.stamp;
+        ROS_DEBUG("Updated the map");
+      }
     }
   } else
     ROS_DEBUG("cannot process scan");

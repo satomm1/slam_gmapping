@@ -143,6 +143,7 @@ class SlamGMapping
     double llsamplestep_;
     double lasamplerange_;
     double lasamplestep_;
+    bool localizationonly_;
     
     ros::NodeHandle private_nh_;
     
